@@ -6,11 +6,12 @@ from starlette.middleware import Middleware
 from starlette.middleware.errors import ServerErrorMiddleware
 from starlette.responses import JSONResponse
 import uvicorn
+from dynaconf import Dynaconf
 
 class Main:
 
-    def __init__(self):
-        self.svc = ModelDeploymentService()
+    def __init__(self, config):
+        self.svc = ModelDeploymentService(config=config)
 
     def custom_exception_handler(request, exc):
         if isinstance(exc, HTTPException):
@@ -28,6 +29,7 @@ class Main:
         return Starlette(routes=routes, debug=True, exception_handlers={Exception: self.custom_exception_handler})
     
 if __name__ == "__main__":
-    uvicorn.run(Main(), host="0.0.0.0", port=3000, log_level="debug")
+    config = Dynaconf(settings_files=["settings.toml"])
+    uvicorn.run(Main(config), host="0.0.0.0", port=3000, log_level="debug")
 
 

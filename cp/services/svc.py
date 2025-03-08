@@ -10,8 +10,8 @@ from cp.resps.resps import Response
 
 class ModelDeploymentService:
 
-    def __init__(self):
-        self.db_handler = DBHandler()
+    def __init__(self, config=None):
+        self.db_handler = DBHandler(config=config)
         self.db_handler.create_db_tables()
 
     async def health(self, request: Request):
@@ -25,12 +25,13 @@ class ModelDeploymentService:
         except Exception as e:
             print(e) # replace with logger 
             return RuntimeException(status_code=400, error=e).to_json()
-
+        
         return self.db_handler.create_or_update_model_deployment(modelDep=modelDep).to_json()
     
-    def get(self, id: int) -> ModelDeployment:
+    def get(self, request: Request) -> ModelDeployment:
         with self.db_handler.get_session() as session:
+            id = request.path_params.get("id")
             modelDep = session.get(ModelDeployment, id)
             if not modelDep:
                 raise HTTPException(status_code=404, detail="ModelDeployment not found")
-        return modelDep
+        return Response(data=modelDep).to_json()

@@ -15,14 +15,15 @@ class Job(ABC):
 
 class RedisJobs(Job):
 
-    def __init__(self):
+    def __init__(self, config=None):
         super().__init__()
         self.app = Celery(
             "tasks",
-            broker="redis://localhost:6379/0"
+            broker=config["DEFAULT"]["BROKER"]
         )
 
     def submit(self, job_id: int, modelDep: ModelDeployment):
+        print("before", job_id, modelDep)
         return self.app.send_task(
             "main.process_job",
             args = [job_id, modelDep.model_dump()]
@@ -40,8 +41,8 @@ class WorkflowFactory:
         cls._workflows[type] = workflow_cls
 
     @classmethod
-    def get_workflow(cls, workflow_cls):
+    def get_workflow(cls, workflow_cls, config):
         if workflow_cls not in cls._workflows:
             raise ValueError(f"Unknown workflow type: {workflow_cls}")
-        return cls._workflows[workflow_cls]()
+        return cls._workflows[workflow_cls](config)
  

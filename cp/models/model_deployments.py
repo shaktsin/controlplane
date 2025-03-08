@@ -13,6 +13,7 @@ class ModelType(str, Enum):
 
 class Model(BaseModel):
      type: ModelType
+     version: str
      bucket: str 
      prefix: str 
 
@@ -32,6 +33,7 @@ class Status(str, Enum):
      UPDATING = "updating"
      DELETING = "deleting"
      DELETED = "deleted"
+     FAILED  = "failed"
      
      
 class ModelDeployment(SQLModel, table=True):
@@ -39,13 +41,12 @@ class ModelDeployment(SQLModel, table=True):
      type: InferenceType = Field(default=InferenceType.CPU)
      status: Status = Field(default=Status.CREATING)
      model: Model = Field(sa_column=Column(JSON))
-     #model: Dict[str, Any] = Field(default_factory=dict, sa_column=Column(JSON))
+     url: Optional[str] = None 
      replicas: int = Field(default=1)
-     resource: Resource = Field(sa_column=Column(JSON))
+     request_res: Resource = Field(sa_column=Column(JSON))
+     limit_res: Resource = Field(sa_column=Column(JSON))
      created_at: datetime = Field(default_factory=datetime.utcnow)
      updated_at: datetime = Field(default_factory=datetime.utcnow)
-
-     # Establish relationship (1-to-Many with Post)
      deploymentjobs: List["DeploymentJobs"] = Relationship(back_populates="modeldeployment")
 
      class Config:

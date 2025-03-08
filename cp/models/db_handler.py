@@ -9,12 +9,13 @@ from cp.resps.resps import Response
 
 class DBHandler:
 
-    def __init__(self):
-        self.sqlite_file = "md.db"
+    def __init__(self, config=None):
+        self.sqlite_file = config["DEFAULT"]["DB"]
         self.sqlite_url = f"sqlite:///{self.sqlite_file}"
         connect_args = {"check_same_thread": False}
         self.engine = create_engine(self.sqlite_url, connect_args=connect_args)
         WorkflowFactory.register_workflow("redis", RedisJobs)
+        self.config = config
 
     def create_db_tables(self):
         from sqlalchemy.orm import configure_mappers
@@ -38,9 +39,11 @@ class DBHandler:
                     modelDep1.replicas = modelDep.replicas
                     modelDep1.status = Status.UPDATING
                     modelDep = modelDep1 
-
+                
+                
                 session.commit()
                 session.refresh(modelDep)
+                #modelDep.url = f"{self.config["DEFAULT"]["DP_INGRESS_EP"]}/{modelDep.id}"
 
                 job = DeploymentJobs(model_deployment_id=modelDep.id)
                 session.add(job)
@@ -48,7 +51,7 @@ class DBHandler:
                 session.refresh(job)
                 session.refresh(modelDep)
 
-                task = WorkflowFactory.get_workflow("redis").submit(job.id, modelDep)
+                task = WorkflowFactory.get_workflow("redis", config=self.config).submit(job.id, modelDep)
                 job.workflow_job_id = task.id
                 session.commit()
                 session.refresh(modelDep)
