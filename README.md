@@ -32,24 +32,20 @@ Once repo, it created, update repo name and url in makefile and run the followin
 `make push`
 
 ## Test Coverage 
+| File | Stmts | Miss | Cover |
+| ---  | ---   | ---  | --- |
+| projects/demo/controlplane/cp/__init__.py                       | 0      | 0   | 100% | 
+| projects/demo/controlplane/cp/exceptions/exceptions.py          | 7      | 1    | 86% |
+| projects/demo/controlplane/cp/jobs/__init__.py                  | 0      | 0   | 100% |
+| projects/demo/controlplane/cp/jobs/jobs.py                     | 30     | 10    | 67% |
+| projects/demo/controlplane/cp/models/__init__.py                | 0      | 0   | 100% |
+| projects/demo/controlplane/cp/models/db_handler.py             | 49     | 20    | 59% |
+| projects/demo/controlplane/cp/models/model_deployments.py      | 56      | 3    | 95% |
+| projects/demo/controlplane/cp/resps/resps.py                   | 10      | 3    | 70% |
+| projects/demo/controlplane/cp/services/__init__.py              | 0      | 0   | 100% |
+| projects/demo/controlplane/cp/services/svc.py                  | 30     | 17    | 43% |
+| __init__.py                                                                    | 0      | 0  | 100% |
+| test_db_handler.py                                                            | 14      | 0  | 100% |
+| test_svc.py                                                                   | 27     | 10  |  63% |
 
-`
----------- coverage: platform linux, python 3.12.9-final-0 -----------
-Name                             Stmts   Miss  Cover
-----------------------------------------------------
-cp/__init__.py                       0      0   100%
-cp/exceptions/exceptions.py          7      1    86%
-cp/jobs/__init__.py                  0      0   100%
-cp/jobs/jobs.py                     30     10    67%
-cp/models/__init__.py                0      0   100%
-cp/models/db_handler.py             49     20    59%
-cp/models/model_deployments.py      56      3    95%
-cp/resps/resps.py                   10      3    70%
-cp/services/__init__.py              0      0   100%
-cp/services/svc.py                  30     17    43%
-tests/__init__.py                    0      0   100%
-tests/test_db_handler.py            14      0   100%
-tests/test_svc.py                   27     10    63%
-----------------------------------------------------
-TOTAL                              223     64    71%
-`
+Total: 71% 
