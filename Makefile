@@ -1,3 +1,5 @@
+include .env 
+
 AWS_REGION=us-east-1
 ECR_PUBLIC_REPO=demo-md-infra-cp
 IMAGE_TAG=latest
