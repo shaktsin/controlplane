@@ -6,12 +6,16 @@ WORKDIR /app
 
 # default db location 
 ENV DB_URL="/mnt/md.db"
+ENV REDIS_HOST=redis-server
 
 # Copy application files
 COPY . .
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
+
+# server 
+EXPOSE 3000
 
 # Default command
 CMD ["python3", "main.py"]

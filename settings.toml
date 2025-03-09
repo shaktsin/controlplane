@@ -1,5 +1,5 @@
 [default]
-BROKER = "redis://localhost:6379/0"
+BROKER = "@format redis://{env[REDIS_HOST]}:6379/0"
 DB = "@format {env[DB_URL]}"
 DP_INGRESS_EP = "http://k8s-default-hellokub-b2291d6458-1199849968.us-east-2.elb.amazonaws.com"
 debug = false

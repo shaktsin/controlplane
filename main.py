@@ -21,9 +21,9 @@ class Main:
     def __call__(self, *args, **kwargs):
         # Routes 
         routes = [
-            Route("/health", self.svc.health, methods=["GET"]),
-            Route("/modelDeployments", self.svc.create_or_update, methods=["POST"]),
-            Route("/modelDeployments/{id}", self.svc.get, methods=["GET"]),
+            Route("/v1/health", self.svc.health, methods=["GET"]),
+            Route("/v1/modelDeployments", self.svc.create_or_update, methods=["POST"]),
+            Route("/v1/modelDeployments/{id}", self.svc.get, methods=["GET"]),
         ]
 
         return Starlette(routes=routes, debug=True, exception_handlers={Exception: self.custom_exception_handler})

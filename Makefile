@@ -1,9 +1,9 @@
 AWS_REGION=us-east-1
 ECR_PUBLIC_REPO=demo-md-infra-cp
 IMAGE_TAG=latest
-ECR_REPO_URL=public.ecr.aws/i9o0i2n0/$(ECR_PUBLIC_REPO)
-PORT=8080
-SRC_DB_MOUNT=/home/shaktsin/projects/demo/controlplane
+ECR_REPO_URL=$(ECR_REPO_FQDN)/$(ECR_PUBLIC_REPO)
+PORT=3000
+REDIS_PORT=6379
 TRT_DB_MOUNT=/mnt
 
 # Authenticate with AWS ECR Public
@@ -24,7 +24,7 @@ build: # build control plane docker image
 # Run the Container Locally
 run-local: # run dp locally 
 	@echo "🚀 Running CP locally..."
-	@docker run --rm -it -p $(PORT):$(PORT) -v $(SRC_DB_MOUNT):$(TRT_DB_MOUNT):rw $(ECR_REPO_URL):$(IMAGE_TAG)
+	@docker run --rm -it --network host -e REDIS_HOST=localhost -p $(PORT):$(PORT) -v $(SRC_DB_MOUNT):$(TRT_DB_MOUNT):rw $(ECR_REPO_URL):$(IMAGE_TAG)
 	@echo "✅ CP Started " 
 
 # Push Docker Image to AWS ECR Public
