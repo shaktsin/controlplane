@@ -1,0 +1,7 @@
+venv
+__pycache__
+*.db
+yamls/
+
+# Ignore all hidden files (optional)
+.*

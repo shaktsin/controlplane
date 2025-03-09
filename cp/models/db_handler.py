@@ -12,6 +12,7 @@ class DBHandler:
     def __init__(self, config=None):
         self.sqlite_file = config["DEFAULT"]["DB"]
         self.sqlite_url = f"sqlite:///{self.sqlite_file}"
+        print(f"reading db file {self.sqlite_url}")
         connect_args = {"check_same_thread": False}
         self.engine = create_engine(self.sqlite_url, connect_args=connect_args)
         WorkflowFactory.register_workflow("redis", RedisJobs)
