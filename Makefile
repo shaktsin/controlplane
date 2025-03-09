@@ -29,6 +29,11 @@ run-local: # run dp locally
 	@docker run --rm -it --network host -e REDIS_HOST=localhost -p $(PORT):$(PORT) -v $(SRC_DB_MOUNT):$(TRT_DB_MOUNT):rw $(ECR_REPO_URL):$(IMAGE_TAG)
 	@echo "✅ CP Started " 
 
+# run local test 
+run-tests: # run local test 
+	@echo " Running local unit test.."
+	@python -m pytest --conv /tests
+
 # Push Docker Image to AWS ECR Public
 push: login build # push control plane to ECR
 	@echo "📤 Pushing Docker image to AWS ECR Public..."

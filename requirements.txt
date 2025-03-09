@@ -6,3 +6,5 @@ sqlmodel
 celery
 redis
 dynaconf
+pytest
+pytest-cov
